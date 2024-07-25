@@ -16,10 +16,6 @@ class Config(object):
 
     SECRET_KEY = os.environ.get("SECRET_KEY")
 
-    # SQLALCHEMY_DATABASE_URI = os.environ.get(
-    #     "DATABASE_URL"
-    # ) or "sqlite:///" + os.path.join(basedir, "app.db")
-
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or 'postgresql://myuser:mypassword@localhost/mydatabase'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -29,3 +25,5 @@ class Config(object):
     JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
 
     REDIS_URL = os.environ.get("REDIS_URL") or "redis://"
+
+    OPENAPI_URL = os.environ.get("OPENAI_API_KEY")
