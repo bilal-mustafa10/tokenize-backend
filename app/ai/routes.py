@@ -38,7 +38,7 @@ def generate_smart_contract() -> Union[Tuple[Response, int], Response]:
 
         try:
             smart_contract_details = generate_smart_contract_logic(smart_contract_description)
-            return jsonify(smart_contract_details), 200
+            return jsonify(smart_contract_details.dict()), 200
         except Exception as e:
             logger.error(f"Error generating smart contract: {e}")
             return error_response(400, f"Error generating smart contract: {e}")

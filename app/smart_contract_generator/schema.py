@@ -18,8 +18,13 @@ class SmartContractCode(BaseModel):
 
 
 class SmartContractDetails(BaseModel):
-    classifiers: SmartContractClassifier = Field(..., description="The list of classifiers for the smart contract.")
-    solidity_code: SmartContractCode = Field(..., description="The generated Solidity code for the smart contract.")
-    function_descriptions: List[FunctionDescription] = Field(...,
-                                                             description="The list of functions descriptions for the "
-                                                                         "smart contract.")
+    classifiers: SmartContractClassifier
+    solidity_code: SmartContractCode
+    function_descriptions: List[FunctionDescription]
+
+    def dict(self, **kwargs):
+        return {
+            "classifiers": self.classifiers.dict(**kwargs),
+            "solidity_code": self.solidity_code.dict(**kwargs),
+            "function_descriptions": [fd.dict(**kwargs) for fd in self.function_descriptions]
+        }
