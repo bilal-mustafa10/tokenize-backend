@@ -19,3 +19,4 @@ class GraphState(TypedDict):
     contract_functions: List[str]
     contract: str
     iterations: int
+    existing_contract: str
