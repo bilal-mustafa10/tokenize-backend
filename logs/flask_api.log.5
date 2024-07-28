@@ -1,2 +1,102 @@
-2024-07-25 23:33:15,451 INFO: Response from model: content='Function Name: ERC20Token\nCode: \n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface IERC20 {\n    function totalSupply() external view returns (uint256);\n    function balanceOf(address account) external view returns (uint256);\n    function transfer(address recipient, uint256 amount) external returns (bool);\n    function allowance(address owner, address spender) external view returns (uint256);\n    function approve(address spender, uint256 amount) external returns (bool);\n    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);\n\n    event Transfer(address indexed from, address indexed to, uint256 value);\n    event Approval(address indexed owner, address indexed spender, uint256 value);\n}\n\ncontract ERC20Token is IERC20 {\n    string public name;\n    string public symbol;\n    uint8 public decimals;\n    uint256 private _totalSupply;\n    address public owner;\n\n    mapping(address => uint256) private _balances;\n    mapping(address => mapping(address => uint256)) private _allowances;\n\n    event Mint(address indexed to, uint256 amount);\n    event Burn(address indexed from, uint256 amount);\n\n    modifier onlyOwner() {\n        require(msg.sender == owner, "Only owner can call this function");\n        _;\n    }\n\n    constructor(string memory _name, string memory _symbol, uint8 _decimals, uint256 initialSupply) {\n        name = _name;\n        symbol = _symbol;\n        decimals = _decimals;\n        _totalSupply = initialSupply;\n        owner = msg.sender;\n        _balances[msg.sender] = initialSupply;\n    }\n\n    function totalSupply() public view override returns (uint256) {\n        return _totalSupply;\n    }\n\n    function balanceOf(address account) public view override returns (uint256) {\n        return _balances[account];\n    }\n\n    function transfer(address recipient, uint256 amount) public override returns (bool) {\n        require(_balances[msg.sender] >= amount, "Insufficient balance");\n        _balances[msg.sender] -= amount;\n        _balances[recipient] += amount;\n        emit Transfer(msg.sender, recipient, amount);\n        return true;\n    }\n\n    function allowance(address owner, address spender) public view override returns (uint256) {\n        return _allowances[owner][spender];\n    }\n\n    function approve(address spender, uint256 amount) public override returns (bool) {\n        _allowances[msg.sender][spender] = amount;\n        emit Approval(msg.sender, spender, amount);\n        return true;\n    }\n\n    function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool) {\n        require(_allowances[sender][msg.sender] >= amount, "Allowance exceeded");\n        require(_balances[sender] >= amount, "Insufficient balance");\n        _balances[sender] -= amount;\n        _balances[recipient] += amount;\n        _allowances[sender][msg.sender] -= amount;\n        emit Transfer(sender, recipient, amount);\n        return true;\n    }\n\n    function mint(address account, uint256 amount) public onlyOwner {\n        _totalSupply += amount;\n        _balances[account] += amount;\n        emit Mint(account, amount);\n    }\n\n    function burn(address account, uint256 amount) public onlyOwner {\n        require(_balances[account] >= amount, "Insufficient balance to burn");\n        _totalSupply -= amount;\n        _balances[account] -= amount;\n        emit Burn(account, amount);\n    }\n}\n```\nDescription: The ERC20Token contract implements the ERC20 interface and provides functions for managing an ERC20 token. It includes functions for transferring tokens, approving token transfers, checking balances, minting new tokens, and burning tokens. The contract also includes an onlyOwner modifier to restrict certain functions to be called only by the owner of the contract.' response_metadata={'token_usage': {'completion_tokens': 793, 'prompt_tokens': 911, 'total_tokens': 1704}, 'model_name': 'gpt-3.5-turbo-0125', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None} id='run-c126929d-6cb5-4a55-9805-f577e048c8c5-0' usage_metadata={'input_tokens': 911, 'output_tokens': 793, 'total_tokens': 1704} [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:27]
-2024-07-25 23:33:15,457 INFO: Raw smart contract details response: [FunctionDescription(function_name='ERC20Token', code='// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface IERC20 {\n    function totalSupply() external view returns (uint256);\n    function balanceOf(address account) external view returns (uint256);\n    function transfer(address recipient, uint256 amount) external returns (bool);\n    function allowance(address owner, address spender) external view returns (uint256);\n    function approve(address spender, uint256 amount) external returns (bool);\n    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);\n\n    event Transfer(address indexed from, address indexed to, uint256 value);\n    event Approval(address indexed owner, address indexed spender, uint256 value);\n}\n\ncontract ERC20Token is IERC20 {\n    string public name;\n    string public symbol;\n    uint8 public decimals;\n    uint256 private _totalSupply;\n    address public owner;\n\n    mapping(address => uint256) private _balances;\n    mapping(address => mapping(address => uint256)) private _allowances;\n\n    event Mint(address indexed to, uint256 amount);\n    event Burn(address indexed from, uint256 amount);\n\n    modifier onlyOwner() {\n        require(msg.sender == owner, "Only owner can call this function");\n        _;\n    }\n\n    constructor(string memory _name, string memory _symbol, uint8 _decimals, uint256 initialSupply) {\n        name = _name;\n        symbol = _symbol;\n        decimals = _decimals;\n        _totalSupply = initialSupply;\n        owner = msg.sender;\n        _balances[msg.sender] = initialSupply;\n    }\n\n    function totalSupply() public view override returns (uint256) {\n        return _totalSupply;\n    }\n\n    function balanceOf(address account) public view override returns (uint256) {\n        return _balances[account];\n    }\n\n    function transfer(address recipient, uint256 amount) public override returns (bool) {\n        require(_balances[msg.sender] >= amount, "Insufficient balance");\n        _balances[msg.sender] -= amount;\n        _balances[recipient] += amount;\n        emit Transfer(msg.sender, recipient, amount);\n        return true;\n    }\n\n    function allowance(address owner, address spender) public view override returns (uint256) {\n        return _allowances[owner][spender];\n    }\n\n    function approve(address spender, uint256 amount) public override returns (bool) {\n        _allowances[msg.sender][spender] = amount;\n        emit Approval(msg.sender, spender, amount);\n        return true;\n    }\n\n    function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool) {\n        require(_allowances[sender][msg.sender] >= amount, "Allowance exceeded");\n        require(_balances[sender] >= amount, "Insufficient balance");\n        _balances[sender] -= amount;\n        _balances[recipient] += amount;\n        _allowances[sender][msg.sender] -= amount;\n        emit Transfer(sender, recipient, amount);\n        return true;\n    }\n\n    function mint(address account, uint256 amount) public onlyOwner {\n        _totalSupply += amount;\n        _balances[account] += amount;\n        emit Mint(account, amount);\n    }\n\n    function burn(address account, uint256 amount) public onlyOwner {\n        require(_balances[account] >= amount, "Insufficient balance to burn");\n        _totalSupply -= amount;\n        _balances[account] -= amount;\n        emit Burn(account, amount);\n    }\n}', description='The ERC20Token contract implements the ERC20 interface and provides functions for managing an ERC20 token. It includes functions for transferring tokens, approving token transfers, checking balances, minting new tokens, and burning tokens. The contract also includes an onlyOwner modifier to restrict certain functions to be called only by the owner of the contract.')] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:28]
+2024-07-26 02:26:53,703 INFO: Generating smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:12]
+2024-07-26 02:26:53,709 INFO: Requirements: ['Loan amount of 30 ETH', 'Interest rate of 5%', 'Loan duration of 2 years', 'Ability to transfer loan amount to borrower', 'Ability to calculate and apply interest over time', 'Ability to track loan repayment status', 'Ability to enforce repayment terms'] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:13]
+2024-07-26 02:26:59,174 INFO: Generated smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:28]
+2024-07-26 02:26:59,175 INFO: Successfully parsed smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:42]
+2024-07-26 02:26:59,179 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:13]
+2024-07-26 02:27:04,191 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:33]
+2024-07-26 02:27:04,191 INFO: Successfully describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:38]
+2024-07-26 03:06:46,788 INFO: Generating smart contract for description: Describe the contract details, e.g. Create a loan contract for 30 ETH with 5% interest over 2 years [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:23]
+2024-07-26 03:06:46,799 INFO: Creating smart contract classifier... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:12]
+2024-07-26 03:06:47,891 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:31]
+2024-07-26 03:06:47,901 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:37]
+2024-07-26 03:06:47,904 INFO: Generating smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:12]
+2024-07-26 03:06:47,905 INFO: Requirements: ['Loan amount: 30 ETH', 'Interest rate: 5%', 'Loan duration: 2 years', 'Borrower address', 'Lender address', 'Repayment terms', 'Collateral (if applicable)'] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:13]
+2024-07-26 03:06:50,429 INFO: Generated smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:28]
+2024-07-26 03:06:50,429 INFO: Successfully parsed smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:42]
+2024-07-26 03:06:50,433 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:13]
+2024-07-26 03:06:51,836 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:33]
+2024-07-26 03:06:51,837 INFO: Successfully describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:38]
+2024-07-26 03:11:59,878 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-07-26 03:12:15,397 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-07-26 03:12:24,112 INFO: Generating smart contract for description: Describe the contract details, e.g. Create a loan contract for 30 ETH with 5% interest over 2 years [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:23]
+2024-07-26 03:12:24,128 INFO: Creating smart contract classifier... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:12]
+2024-07-26 03:12:33,501 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:31]
+2024-07-26 03:12:33,502 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:37]
+2024-07-26 03:12:33,506 INFO: Generating smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:12]
+2024-07-26 03:12:33,506 INFO: Requirements: ['The contract should handle a loan amount of 30 ETH', 'The loan should have an interest rate of 5% annually', 'The loan term should be for 2 years', 'The contract should be able to calculate the total repayment amount based on the loan amount, interest rate, and loan term', 'The contract should handle the transfer of the loan amount to the borrower', 'The contract should handle the repayment of the loan from the borrower', 'The contract should enforce the repayment schedule and calculate any penalties for late repayment', 'The contract should be able to handle early repayments and calculate any reductions in total repayment amount', 'The contract should be able to handle the situation where the borrower defaults on the loan', 'The contract should have a function to determine the loan status (e.g. active, completed, defaulted)', 'The contract should be able to handle multiple borrowers and lenders'] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:13]
+2024-07-26 03:12:54,922 INFO: Generated smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:28]
+2024-07-26 03:12:54,924 ERROR: JSON decode error: Invalid control character at: line 2 column 25 (char 26) [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:45]
+2024-07-26 03:12:54,924 ERROR: Raw response content: {
+    "code": "```solidity
+    // SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.0;
+
+    import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+    import '@openzeppelin/contracts/access/Ownable.sol';
+    import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
+
+    contract LoanContract is Ownable, ReentrancyGuard {
+        // The loan amount
+        uint256 public loanAmount = 30 ether;
+        // The annual interest rate
+        uint256 public interestRate = 5;
+        // The loan term in years
+        uint256 public loanTerm = 2;
+        // ERC20 token for loan and repayment
+        IERC20 public token;
+        // Address of the borrower
+        address public borrower;
+        // Loan status
+        enum LoanStatus {ACTIVE, COMPLETED, DEFAULTED}
+        LoanStatus public status;
+        // Penalty rate
+        uint256 public penaltyRate = 10;
+        // Flag for early repayment
+        bool public earlyRepayment = false;
+        
+        constructor(address _token) {
+            token = IERC20(_token);
+        }
+
+        // Function to initiate a loan
+        function initiateLoan(address _borrower) public onlyOwner {
+            borrower = _borrower;
+            token.transfer(borrower, loanAmount);
+            status = LoanStatus.ACTIVE;
+        }
+
+        // Function to calculate total repayment amount
+        function calculateTotalRepayment() public view returns(uint256) {
+            return loanAmount * (1 + interestRate / 100) ** loanTerm;
+        }
+
+        // Function to handle repayment of the loan
+        function handleRepayment(uint256 _repayment) public {
+            require(borrower == msg.sender, 'Only borrower can repay');
+            token.transferFrom(msg.sender, address(this), _repayment);
+            if (token.balanceOf(address(this)) >= calculateTotalRepayment()) {
+                status = LoanStatus.COMPLETED;
+            }
+        }
+
+        // Function to handle penalties for late repayment
+        function handleLateRepayment() public onlyOwner {
+            loanAmount = loanAmount * (1 + penaltyRate / 100);
+        }
+
+        // Function to handle early repayments
+        function handleEarlyRepayment(uint256 _repayment) public {
+            require(borrower == msg.sender, 'Only borrower can repay');
+            require(!earlyRepayment, 'Early repayment already made');
+            token.transferFrom(msg.sender, address(this), _repayment);
+            earlyRepayment = true;
+        }
+
+        // Function to handle default
+        function handleDefault() public onlyOwner {
+            status = LoanStatus.DEFAULTED;
+        }
+    }
+    ```"
+} [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:46]
+2024-07-26 03:12:54,927 ERROR: Error generating smart contract: Invalid JSON format in response [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:55]

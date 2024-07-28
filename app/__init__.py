@@ -13,14 +13,13 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 
-
 db = SQLAlchemy()
 migrate = Migrate()
 ma = Marshmallow()
 jwt = JWTManager()
 cors = CORS()
 limiter = Limiter(
-    key_func=get_remote_address, default_limits=["200 per day", "50 per hour"]
+    key_func=get_remote_address, default_limits=["10000 per day", "1500 per hour"]
 )
 
 
@@ -47,7 +46,6 @@ def create_app(config_class=Config):
     app.register_blueprint(users_bp, url_prefix="/api/users")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(ai_bp, url_prefix="/api/ai")
-
 
     # Set the rate limit for all routes in the auth_bp blueprint to 1 per second
     limiter.limit("60 per minute")(auth_bp)

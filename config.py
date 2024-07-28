@@ -27,3 +27,6 @@ class Config(object):
     REDIS_URL = os.environ.get("REDIS_URL") or "redis://"
 
     OPENAPI_URL = os.environ.get("OPENAI_API_KEY")
+    LANGCHAIN_TRACING_V2 = os.environ.get("LANGCHAIN_TRACING_V2")
+    LANGCHAIN_ENDPOINT = os.environ.get("LANGCHAIN_ENDPOINT")
+    LANGCHAIN_API_KEY = os.environ.get("LANGCHAIN_API_KEY")
