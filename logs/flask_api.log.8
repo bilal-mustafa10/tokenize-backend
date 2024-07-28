@@ -1,95 +1,44 @@
-2024-07-20 07:46:06,494 ERROR: Exception on /api/auth/register [POST] [in /Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py:1414]
-Traceback (most recent call last):
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 2190, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1486, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-                                                ^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1484, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1469, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/auth/routes.py", line 72, in register
-    access_token = create_access_token(identity=user_id, fresh=True)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_jwt_extended/utils.py", line 174, in create_access_token
-    return jwt_manager._encode_jwt_from_config(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_jwt_extended/jwt_manager.py", line 524, in _encode_jwt_from_config
-    secret=self._encode_key_callback(identity),
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_jwt_extended/default_callbacks.py", line 161, in default_encode_key_callback
-    return config.encode_key
-           ^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_jwt_extended/config.py", line 36, in encode_key
-    return self._private_key if self.is_asymmetric else self._secret_key
-                                                        ^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_jwt_extended/config.py", line 238, in _secret_key
-    raise RuntimeError(
-RuntimeError: JWT_SECRET_KEY or flask SECRET_KEY must be set when using symmetric algorithm "HS256"
-2024-07-20 07:48:36,500 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-20 07:58:58,265 ERROR: Exception on /api/auth/login [POST] [in /Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py:1414]
-Traceback (most recent call last):
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 2190, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1486, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-                                                ^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1484, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1469, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/auth/routes.py", line 97, in login
-    user = Users.query.filter_by(username=result["username"]).first()
-                                          ~~~~~~^^^^^^^^^^^^
-KeyError: 'username'
-2024-07-20 07:59:21,707 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-20 08:32:51,247 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-20 19:11:43,747 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 02:57:23,498 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:45:31,413 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:45:37,060 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:45:55,218 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:46:03,894 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:46:06,096 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:47:45,607 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:48:58,053 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:49:09,367 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:49:11,207 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:49:48,972 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:50:21,463 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:50:26,351 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:50:52,254 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:50:58,768 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:51:05,604 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:52:00,795 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:52:11,224 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:52:36,024 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:52:51,400 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:52:56,161 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:53:50,117 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:53:54,001 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:53:56,919 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:54:01,352 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 04:54:36,513 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 05:21:06,550 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 05:22:37,203 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 05:24:52,450 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 05:30:07,989 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 05:32:49,452 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-24 14:51:23,927 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-25 04:03:49,895 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:68]
-2024-07-25 04:08:55,367 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
-2024-07-25 04:09:49,013 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-07-26 00:56:37,482 INFO: Requirements: ['Loan amount: 30 ETH', 'Interest rate: 5%', 'Loan duration: 2 years', 'Borrower address', 'Lender address', 'Repayment terms', 'Collateral (if applicable)'] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:13]
+2024-07-26 00:56:39,308 INFO: Generated smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:28]
+2024-07-26 00:56:39,309 INFO: Successfully parsed smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:42]
+2024-07-26 00:56:39,312 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:13]
+2024-07-26 00:56:41,009 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:33]
+2024-07-26 00:56:41,009 INFO: Successfully describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:38]
+2024-07-26 00:57:11,721 INFO: Generating smart contract for description: Describe the contract details, e.g. Create a loan contract for 30 ETH with 5% interest over 2 years [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:23]
+2024-07-26 00:57:11,728 INFO: Creating smart contract classifier... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:12]
+2024-07-26 00:57:13,000 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:31]
+2024-07-26 00:57:13,000 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:37]
+2024-07-26 00:57:13,022 INFO: Generating smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:12]
+2024-07-26 00:57:13,023 INFO: Requirements: ['Loan amount: 30 ETH', 'Interest rate: 5%', 'Loan duration: 2 years', 'Borrower address', 'Lender address', 'Repayment terms', 'Collateral (if applicable)'] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:13]
+2024-07-26 00:57:15,422 INFO: Generated smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:28]
+2024-07-26 00:57:15,423 INFO: Successfully parsed smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:42]
+2024-07-26 00:57:15,427 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:13]
+2024-07-26 00:57:16,888 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:33]
+2024-07-26 00:57:16,889 INFO: Successfully describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:38]
+2024-07-26 00:57:51,856 INFO: Generating smart contract for description: Describe the contract details, e.g. Create a loan contract for 30 ETH with 5% interest over 2 years [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:23]
+2024-07-26 00:57:51,875 INFO: Creating smart contract classifier... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:12]
+2024-07-26 00:57:53,240 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:31]
+2024-07-26 00:57:53,240 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:37]
+2024-07-26 00:57:53,244 INFO: Generating smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:12]
+2024-07-26 00:57:53,245 INFO: Requirements: ['Loan amount: 30 ETH', 'Interest rate: 5%', 'Loan duration: 2 years', 'Borrower address', 'Lender address', 'Repayment terms', 'Collateral (if applicable)'] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:13]
+2024-07-26 00:57:55,292 INFO: Generated smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:28]
+2024-07-26 00:57:55,292 INFO: Successfully parsed smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:42]
+2024-07-26 00:57:55,296 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:13]
+2024-07-26 00:57:56,719 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:33]
+2024-07-26 00:57:56,720 INFO: Successfully describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:38]
+2024-07-26 00:58:12,377 INFO: Generating smart contract for description: Describe the contract details, e.g. Create a loan contract for 30 ETH with 5% interest over 2 years [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:23]
+2024-07-26 00:58:12,399 INFO: Creating smart contract classifier... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:12]
+2024-07-26 00:58:13,303 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:31]
+2024-07-26 00:58:13,304 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:37]
+2024-07-26 00:58:13,318 INFO: Generating smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:12]
+2024-07-26 00:58:13,318 INFO: Requirements: ['Loan amount: 30 ETH', 'Interest rate: 5%', 'Loan duration: 2 years', 'Borrower address', 'Lender address', 'Repayment terms', 'Collateral (if applicable)'] [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:13]
+2024-07-26 00:58:15,240 INFO: Generated smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:28]
+2024-07-26 00:58:15,241 INFO: Successfully parsed smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:42]
+2024-07-26 00:58:15,247 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:13]
+2024-07-26 00:58:15,870 INFO: Generating smart contract for description: Describe the contract details, e.g. Create a loan contract for 30 ETH with 5% interest over 2 years [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/generate_smart_contract.py:23]
+2024-07-26 00:58:15,874 INFO: Creating smart contract classifier... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:12]
+2024-07-26 00:58:16,790 INFO: Describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:33]
+2024-07-26 00:58:16,791 INFO: Successfully describing smart contract functions [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/describe_smart_contract_functions.py:38]
+2024-07-26 00:58:17,197 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:31]
+2024-07-26 00:58:17,197 INFO: Successfully created smart contract classifier. [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_classifier.py:37]
+2024-07-26 00:58:17,201 INFO: Generating smart contract code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/smart_contract_generator/smart_contract_code_generator.py:12]
