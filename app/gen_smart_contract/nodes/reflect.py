@@ -1,4 +1,4 @@
-from app.gen_smart_contract.common import code_gen_chain
+from app.gen_smart_contract.common import code_update_chain
 from app.gen_smart_contract.load_data import concatenated_content
 from app.gen_smart_contract.state import GraphState
 
@@ -14,20 +14,35 @@ def reflect(state: GraphState):
         state (dict): New key added to state, generation
     """
 
-    print("---GENERATING CODE SOLUTION---")
+    print("---UPDATING CODE SOLUTION---")
 
     # State
     messages = state["messages"]
     iterations = state["iterations"]
-    code_solution = state["contract"]
+    existing_contract = state["existing_contract"]
     error = state["error"]
-    contract_type = state["contract_type"]
-    requirements = state["contract_requirements"]
-    contract_functions = state["contract_functions"]
 
-    # Add reflection
-    reflections = code_gen_chain.invoke(
-        {"context": concatenated_content, "messages": messages, "requirements": requirements}
+    if error == "yes":
+        messages += [
+            (
+                "user",
+                "Now, try again to classify a smart contract."
+            )
+        ]
+
+    updated_code = code_update_chain.invoke(
+        {"context": concatenated_content, "messages": messages, "existing_contract": existing_contract}
     )
-    messages += [("assistant", f"Here are reflections on the error: {reflections}")]
-    return {"contract": code_solution, "messages": messages, "iterations": iterations}
+
+    messages += [
+        (
+            "assistant",
+            f"{updated_code.contract}",
+        )
+    ]
+    iterations = iterations + 1
+    return {
+        "contract": updated_code.contract,
+        "messages": messages,
+        "iterations": iterations,
+    }
