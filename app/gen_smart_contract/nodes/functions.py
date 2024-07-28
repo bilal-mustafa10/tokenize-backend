@@ -29,7 +29,7 @@ def functions(state: GraphState) -> Dict[str, Any]:
         messages += [
             (
                 "user",
-                "Now, try again. Invoke the code tool to structure the output with a prefix, imports, and code block:",
+                "Now, try again to generate functions from the code solution",
             )
         ]
         # Solution
