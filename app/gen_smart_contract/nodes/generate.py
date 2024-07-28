@@ -28,7 +28,7 @@ def generate(state: GraphState):
         messages += [
             (
                 "user",
-                "Now, try again. Invoke the code tool to structure the output with a prefix, imports, and code block:",
+                "Now, try again to generate a code solution",
             )
         ]
 
