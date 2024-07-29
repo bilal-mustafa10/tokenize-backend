@@ -7,6 +7,7 @@ import logging
 import json
 from solcx import compile_source, install_solc
 
+from app.gen_smart_contract.common import documentation_gen_chain
 from app.gen_smart_contract.update_workflow import update_smart_contract_workflow
 from app.gen_smart_contract.workflow import smart_contract_generator
 
@@ -156,4 +157,23 @@ def compile_solidity():
 
     except Exception as e:
         logger.error(f"Error compiling solidity: {e}")
+        return jsonify({'success': False, 'errors': [str(e)]}), 500
+
+
+@bp.post("/smart-contract/documentation")
+def generate_documentation() -> Union[Tuple[Response, int], Response]:
+    try:
+        source_code = request.json.get('sourceCode')
+
+        if not source_code:
+            return jsonify({'success': False, 'errors': ['No source code provided']}), 400
+
+        documentation = documentation_gen_chain.invoke({
+            "contract": source_code
+        })
+
+        return jsonify({'success': True, 'documentation': documentation.documentation}), 200
+
+    except Exception as e:
+        logger.error(f"Error generating documentation: {e}")
         return jsonify({'success': False, 'errors': [str(e)]}), 500

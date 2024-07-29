@@ -10,6 +10,10 @@ class generateContractModel(BaseModel):
     contract: str = Field(description="Generated smart contract")
 
 
+class documentationGenerateModel(BaseModel):
+    documentation: str = Field(description="Formatted documentation of the smart contract")
+
+
 class functionModel(BaseModel):
     function_name: str = Field(description="Name of the function")
     code: str = Field(description="Full code of the function")
