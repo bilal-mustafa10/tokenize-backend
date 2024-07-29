@@ -41,11 +41,13 @@ def create_app(config_class=Config):
     from app.users import bp as users_bp
     from app.auth import bp as auth_bp
     from app.ai import bp as ai_bp
+    from app.smart_contract import bp as smart_contract_bp
 
     app.register_blueprint(errors_bp)
     app.register_blueprint(users_bp, url_prefix="/api/users")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(ai_bp, url_prefix="/api/ai")
+    app.register_blueprint(smart_contract_bp, url_prefix="/api/smart_contract")
 
     # Set the rate limit for all routes in the auth_bp blueprint to 1 per second
     limiter.limit("60 per minute")(auth_bp)
