@@ -84,8 +84,9 @@ class SmartContractVersion(db.Model):
     contract_type = db.Column(db.String(255), nullable=False)
     code_requirements = db.Column(db.Text, nullable=False)
     code = db.Column(db.Text, nullable=False)
-    code_functions = db.Column(db.Text, nullable=False)
+    documentation = db.Column(db.Text, nullable=False)
     deployed = db.Column(db.Boolean, default=False, nullable=False)
+    compiler_version = db.Column(db.String(255), nullable=False)
 
 
 class SmartContract(db.Model):
