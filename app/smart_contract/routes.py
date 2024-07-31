@@ -29,8 +29,11 @@ def add_smart_contract_version(version_data, smart_contract_id):
     """
     try:
         new_version = SmartContractVersion(contract_type=version_data.get("contract_type"),
-            code_requirements=version_data.get("code_requirements"), code_functions=version_data.get("code_functions"),
-            code=version_data.get("code"), deployed=version_data.get("deployed"), smart_contract_id=smart_contract_id)
+                                           code_requirements=version_data.get("code_requirements"),
+                                           documentation=version_data.get("documentation"),
+                                           code=version_data.get("code"), deployed=version_data.get("deployed"),
+                                           compiler_version=version_data.get("compiler_version"),
+                                           smart_contract_id=smart_contract_id)
         db.session.add(new_version)
     except Exception as e:
         logger.error(f"Error adding smart contract version: {e}")
@@ -108,7 +111,8 @@ def add_smart_contract() -> tuple[Response, int] | Response:
         user_id = "1a110fb7-50f6-4301-bb84-538fbf1c705a"
 
         smart_contract = SmartContract(user_id=user_id, name=data["name"], draft=data["draft"],
-            deployed_id=data["deployed_id"], wallet_address=data["wallet_address"], network=data["network"])
+                                       deployed_id=data["deployed_id"], wallet_address=data["wallet_address"],
+                                       network=data["network"])
 
         db.session.add(smart_contract)
         db.session.commit()
@@ -180,9 +184,10 @@ def update_smart_contract(id: int) -> tuple[Response, int] | Response:
                     logger.info(f"Updating smart contract version {version_id}")
                     version.contract_type = version_data["contract_type"]
                     version.code_requirements = version_data["code_requirements"]
-                    version.code_functions = version_data["code_functions"]
+                    version.documentation = version_data["documentation"]
                     version.code = version_data["code"]
                     version.deployed = version_data["deployed"]
+                    version.compiler_version = version_data["compiler_version"]
 
         db.session.commit()
 
@@ -202,6 +207,7 @@ def update_smart_contract(id: int) -> tuple[Response, int] | Response:
         db.session.rollback()
         logger.error(f"Unexpected error: {e}")
         return jsonify({"error": "Internal server error"}), 500
+
 
 @bp.delete("/smart_contract/<int:id>")
 def delete_smart_contract(id: int) -> tuple[Response, int] | Response:
