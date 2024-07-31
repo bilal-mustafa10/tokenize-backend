@@ -17,32 +17,20 @@ def reflect(state: GraphState):
     print("---UPDATING CODE SOLUTION---")
 
     # State
-    messages = state["messages"]
-    iterations = state["iterations"]
     existing_contract = state["existing_contract"]
+    prompt = state["prompt"]
     error = state["error"]
+    error_message = state["error_message"]
 
     if error == "yes":
-        messages += [
-            (
-                "user",
-                "Now, try again to classify a smart contract."
-            )
-        ]
+        print("---REGENERATING CODE SOLUTION---")
+        prompt += error_message
 
     updated_code = code_update_chain.invoke(
-        {"context": concatenated_content, "messages": messages, "existing_contract": existing_contract}
+        {"context": concatenated_content, "prompt": prompt, "existing_contract": existing_contract}
     )
 
-    messages += [
-        (
-            "assistant",
-            f"{updated_code.contract}",
-        )
-    ]
-    iterations = iterations + 1
     return {
         "contract": updated_code.contract,
-        "messages": messages,
-        "iterations": iterations,
+        "compiler_version": updated_code.solVersion,
     }

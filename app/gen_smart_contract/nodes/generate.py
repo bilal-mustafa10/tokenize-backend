@@ -18,37 +18,23 @@ def generate(state: GraphState):
 
     # State
     requirements = state["contract_requirements"]
-    messages = state["messages"]
-    iterations = state["iterations"]
-    error = state["error"]
     contract_type = state["contract_type"]
+    prompt = state["prompt"]
+    error = state["error"]
+    error_message = state["error_message"]
 
-    # We have been routed back to generation with an error
     if error == "yes":
-        messages += [
-            (
-                "user",
-                "Now, try again to generate a code solution",
-            )
-        ]
+        print("---REGENERATING CODE SOLUTION---")
+        prompt += error_message
 
     # Solution
     code_solution = code_gen_chain.invoke(
-        {"context": concatenated_content, "messages": messages, "requirements": requirements}
+        {"context": concatenated_content, "prompt": prompt, "requirements": requirements}
     )
-    messages += [
-        (
-            "assistant",
-            f"{code_solution.contract}",
-        )
-    ]
 
-    # Increment
-    iterations = iterations + 1
     return {
         "contract": code_solution.contract,
+        "compiler_version": code_solution.solVersion,
         "contract_type": contract_type,
         "contract_requirements": requirements,
-        "messages": messages,
-        "iterations": iterations,
     }

@@ -1,4 +1,4 @@
-from typing import Tuple, Union, Generator, Dict, Any
+from typing import Tuple, Union, Generator
 from flask import Response, request, jsonify, stream_with_context
 from marshmallow import Schema, fields, ValidationError
 from app.ai import bp
@@ -48,7 +48,11 @@ def generate_smart_contract() -> Union[Tuple[Response, int], Response]:
         def generate() -> Generator[str, None, None]:
             try:
                 for output in smart_contract_generator.stream(
-                        {"messages": [("user", smart_contract_description)], "iterations": 0}):
+                        {
+                            "prompt": smart_contract_description,
+                            "error_message": "",
+                            "error": "no"
+                         }):
                     for key, value in output.items():
                         logger.info(f"{key}")
                         try:
@@ -100,9 +104,9 @@ def update_smart_contract() -> Union[Tuple[Response, int], Response]:
             try:
                 for output in update_smart_contract_workflow.stream(
                         {
-                            "messages": [("user", smart_contract_description)],
-                            "iterations": 0,
-                            "existing_contract": smart_contract_code
+                            "prompt": smart_contract_description,
+                            "existing_contract": smart_contract_code,
+                            "error_message": "",
                         }):
                     for key, value in output.items():
                         logger.info(f"{key}")

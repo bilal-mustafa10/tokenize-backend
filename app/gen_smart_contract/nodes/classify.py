@@ -16,37 +16,13 @@ def classify(state: GraphState):
     print("---CLASSIFYING SMART CONTRACT---")
 
     # State
-    messages = state["messages"]
-    iterations = state["iterations"]
-    error = state["error"]
-
-    # We have been routed back to generation with an error
-    if error == "yes":
-        messages += [
-            (
-                "user",
-                "Now, try again to classify a smart contract."
-            )
-        ]
-
-    # Solution
+    prompt = state["prompt"]
 
     classify_contract = classify_contract_chain.invoke(
-        {"messages": messages}
+        {"prompt": prompt}
     )
 
-    messages += [
-        (
-            "assistant",
-            f"{classify_contract.contract_type} \n Requirements: {classify_contract.requirements}",
-        )
-    ]
-
-    # Increment
-    iterations = iterations + 1
     return {
         "contract_type": classify_contract.contract_type,
         "contract_requirements": classify_contract.requirements,
-        "messages": messages,
-        "iterations": iterations,
     }
