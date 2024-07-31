@@ -1,6 +1,5 @@
 from app.gen_smart_contract.state import GraphState
 
-max_iterations = 3
 flag = "do not reflect"
 
 
@@ -15,11 +14,10 @@ def decide_to_finish_update(state: GraphState):
         str: Next node to call
     """
     error = state["error"]
-    iterations = state["iterations"]
 
-    if error == "no" or iterations == max_iterations:
+    if error == "no":
         print("---DECISION: FINISH---")
-        return "end"
+        return "document"
     else:
         print("---DECISION: RE-TRY SOLUTION---")
         return "reflect"

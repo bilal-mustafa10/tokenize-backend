@@ -11,14 +11,14 @@ Here is a full set of Solidity documentation:
     {context}  
     \n ------- \n
 
-    Existing Contract:
+    Existing Contract
     \n ------- \n
     {existing_contract}
     \n ------- \n
     
-    User Feedback:
-    {messages}
-
+    \n ------- \n
+    User Feedback: {prompt}
+    \n ------- \n
 
     Now, generate a smart contract based on the provided requirements. The code should include:
     - SPDX-License-Identifier and pragma statements.
@@ -28,9 +28,11 @@ Here is a full set of Solidity documentation:
     - Functions to implement the required functionality.
     - Appropriate access control mechanisms.
     - Detailed comments explaining each part of the code.
+    - Optimized for gas usage.
+    - No imports from other Solidity files; this will be the only code.
+    - Avoid current security vulnerabilities as stated in the documentation.
 
     """,
-        ),
-        ("placeholder", "{messages}"),
+        )
     ]
 )

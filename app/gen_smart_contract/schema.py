@@ -8,6 +8,7 @@ class classifyContractModel(BaseModel):
 
 class generateContractModel(BaseModel):
     contract: str = Field(description="Generated smart contract")
+    solVersion: str = Field(description="Solidity Compiler Version")
 
 
 class documentationGenerateModel(BaseModel):
@@ -18,7 +19,3 @@ class functionModel(BaseModel):
     function_name: str = Field(description="Name of the function")
     code: str = Field(description="Full code of the function")
     description: str = Field(description="Description of the function")
-
-
-class codeFunctionsModel(BaseModel):
-    functions: list[functionModel] = Field(description="List of functions")
