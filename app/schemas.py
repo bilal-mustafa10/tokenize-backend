@@ -19,6 +19,7 @@ class UsersDeserializingSchema(Schema):
     verified = fields.Boolean()
     openai_api_key = fields.String()
     metamask_wallet_address = fields.String()
+    coinbase_wallet_address = fields.String()
 
 
 class SmartContractVersionSchema(ma.SQLAlchemyAutoSchema):

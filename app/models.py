@@ -15,8 +15,9 @@ class Users(db.Model):
     enabled = db.Column(db.Boolean, default=True, nullable=False)
     role = db.Column(db.String(50), nullable=False, default='user')
     verified = db.Column(db.Boolean, default=False, nullable=False)
-    openai_api_key = db.Column(db.String(120), default=None, nullable=True)
-    metamask_wallet_address = db.Column(db.String(120), default=None, nullable=True)
+    openai_api_key = db.Column(db.String(512), default=None, nullable=True)
+    metamask_wallet_address = db.Column(db.String(512), default=None, nullable=True)
+    coinbase_wallet_address = db.Column(db.String(512), default=None, nullable=True)
     smart_contracts = db.relationship('SmartContract', backref='user', lazy=True)
 
     def set_password(self, password: str):
