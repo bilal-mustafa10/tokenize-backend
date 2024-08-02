@@ -4,6 +4,7 @@ from typing import Tuple
 from flask import Response, request, jsonify
 from app import db, jwt
 from app.auth import bp
+from app.encryption import decrypt_data
 from app.models import Users, RevokedTokenModel
 from app.schemas import UsersDeserializingSchema
 from app.errors.handlers import bad_request, error_response
@@ -104,8 +105,22 @@ def login() -> tuple[Response, int] | Response:
     if user is None or not user.check_password(result["password"]):
         return error_response(401, message="Invalid username or password")
 
+    # Decrypt sensitive keys before returning them
+    decrypted_metamask_key = decrypt_data(user.metamask_wallet_address)
+    decrypted_coinbase_key = decrypt_data(user.coinbase_wallet_address)
+    decrypted_openai_key = decrypt_data(user.openai_api_key)
+
     tokens = {
-        "user": user_schema.dump(user),
+        "user": {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "metamask_wallet_address": decrypted_metamask_key,
+            "coinbase_wallet_address": decrypted_coinbase_key,
+            "openai_api_key": decrypted_openai_key,
+            "enabled": user.enabled,
+            "role": user.role
+        },
         "token": create_access_token(identity=user.id, fresh=True, expires_delta=timedelta(minutes=120)),
     }
 
