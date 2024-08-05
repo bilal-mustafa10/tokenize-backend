@@ -1,5 +1,6 @@
 import logging
 from flask import request, jsonify, Response
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.exceptions import BadRequest
 
@@ -61,6 +62,7 @@ def validate_smart_contract_data(data):
 
 
 @bp.get("/smart_contract")
+@jwt_required()
 def get_smart_contracts() -> tuple[Response, int]:
     """
     Returns all smart contracts submitted by the user making the request.
@@ -71,13 +73,8 @@ def get_smart_contracts() -> tuple[Response, int]:
         A JSON object containing all smart contract data and HTTP status code
     """
     try:
-        user_email = request.args.get("email")
-        user_data = Users.query.filter_by(email=user_email).first()
-
-        if not user_data:
-            raise BadRequest("User does not exist")
-
-        smart_contracts = SmartContract.query.filter_by(user_id=user_data.id).all()
+        user_id = get_jwt_identity()
+        smart_contracts = SmartContract.query.filter_by(user_id=user_id).all()
         smart_contracts_data = smart_contracts_schema.dump(smart_contracts)
 
         return jsonify(smart_contracts_data), 200
@@ -94,6 +91,7 @@ def get_smart_contracts() -> tuple[Response, int]:
 
 
 @bp.post("/smart_contract")
+@jwt_required()
 def add_smart_contract() -> tuple[Response, int] | Response:
     """
     Adds a new smart contract.
@@ -107,8 +105,8 @@ def add_smart_contract() -> tuple[Response, int] | Response:
         data = request.json
         validate_smart_contract_data(data)
 
-        # This should be dynamic based on the authenticated user
-        user_id = "1a110fb7-50f6-4301-bb84-538fbf1c705a"
+        user_id = get_jwt_identity()
+
 
         smart_contract = SmartContract(user_id=user_id, name=data["name"], draft=data["draft"],
                                        deployed_id=data["deployed_id"], wallet_address=data["wallet_address"],
@@ -143,6 +141,7 @@ def add_smart_contract() -> tuple[Response, int] | Response:
 
 
 @bp.put("/smart_contract/<int:id>")
+@jwt_required()
 def update_smart_contract(id: int) -> tuple[Response, int] | Response:
     """
     Updates a smart contract by its ID.
@@ -158,11 +157,20 @@ def update_smart_contract(id: int) -> tuple[Response, int] | Response:
         A JSON object containing the updated smart contract data and HTTP status code
     """
     try:
+        user_id = get_jwt_identity()
+
         data = request.json
 
         smart_contract = SmartContract.query.filter_by(id=id).first()
         if not smart_contract:
             return jsonify({"error": "Smart contract not found"}), 404
+
+
+
+        logger.info(f"User ID: {user_id}")
+        logger.info(f"Smart contract ID: {smart_contract.user_id}")
+        if str(smart_contract.user_id) != str(user_id):
+            return jsonify({"error": "User does not belong to this smart contract"}), 403
 
         logger.info(f"Updating smart contract {smart_contract.id}")
 
@@ -210,6 +218,7 @@ def update_smart_contract(id: int) -> tuple[Response, int] | Response:
 
 
 @bp.delete("/smart_contract/<int:id>")
+@jwt_required()
 def delete_smart_contract(id: int) -> tuple[Response, int] | Response:
     """
     Deletes a smart contract by its ID along with all its versions.
@@ -225,9 +234,17 @@ def delete_smart_contract(id: int) -> tuple[Response, int] | Response:
         A JSON object containing a success message and HTTP status code
     """
     try:
+        user_id = get_jwt_identity()
         smart_contract = SmartContract.query.filter_by(id=id).first()
+
         if not smart_contract:
             return jsonify({"error": "Smart contract not found"}), 404
+
+
+        logger.info(f"User ID: {user_id}")
+        logger.info(f"Smart contract ID: {smart_contract.user_id}")
+        if str(smart_contract.user_id) != str(user_id):
+            return jsonify({"error": "You are not authorized to delete this smart contract"}), 401
 
         # Fetch all versions associated with the smart contract
         versions = SmartContractVersion.query.filter_by(smart_contract_id=id).all()
