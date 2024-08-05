@@ -8,12 +8,12 @@ from datetime import datetime
 # defines the Users database table
 class Users(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), unique=False, nullable=False)
+    first_name = db.Column(db.String(256), nullable=False)
+    last_name = db.Column(db.String(256), nullable=False)
+    email = db.Column(db.String(256), unique=True, nullable=False)
+    password_hash = db.Column(db.String(256), unique=False, nullable=False)
     enabled = db.Column(db.Boolean, default=True, nullable=False)
-    role = db.Column(db.String(50), nullable=False, default='user')
+    role = db.Column(db.String(200), nullable=False, default='user')
     verified = db.Column(db.Boolean, default=False, nullable=False)
     openai_api_key = db.Column(db.Text, default=None, nullable=True)
     metamask_wallet_address = db.Column(db.Text, default=None, nullable=True)
