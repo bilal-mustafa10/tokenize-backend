@@ -1,7 +1,110 @@
-2024-07-31 06:33:38,544 INFO: {"document": {"contract_type": null, "contract_requirements": null, "documentation": "# LoanContract Documentation\n\n## Overview\nThe `LoanContract` is a Solidity smart contract designed to facilitate the lending and borrowing of Ether (ETH) between a lender and a borrower. It provides a structured framework for initiating loans, calculating repayment amounts, and managing the loan lifecycle, including handling late payments.\n\n## Purpose\nThe primary purpose of the `LoanContract` is to create a transparent and secure mechanism for peer-to-peer lending on the Ethereum blockchain. By utilizing smart contract technology, it eliminates the need for intermediaries, ensuring that both parties can engage in a trustless transaction.\n\n## Objectives\nThe contract aims to achieve the following objectives:\n- **Facilitate Loan Transactions:** Allow users to initiate and manage loans directly on the blockchain.\n- **Automate Repayment Calculations:** Automatically calculate the total repayment amount based on the loan amount and interest rate.\n- **Track Loan Status:** Maintain a clear record of the loan status, including whether it is active, repaid, or late.\n- **Handle Late Payments:** Provide functionality to manage and record late payments, ensuring accountability for both parties.\n\n## Functionalities\nThe `LoanContract` includes several key functionalities:\n- **Loan Initialization:** The lender can set up a loan by specifying the loan amount, interest rate, and term. The borrower can initiate the loan, which activates the contract and sets repayment parameters.\n- **Total Repayment Calculation:** The contract allows the borrower to view the total repayment amount, which includes the principal and interest.\n- **Loan Repayment:** The borrower can repay the loan by sending the exact repayment amount before the deadline. Upon successful repayment, the loan status is updated to \"Repaid.\"\n- **Remaining Balance Inquiry:** The borrower can check the remaining balance of the loan, which reflects the total repayment minus any payments made.\n- **Late Payment Handling:** If the borrower fails to repay the loan by the deadline, the contract can record the payment as late, updating the loan status accordingly.\n\n## Events\nThe contract emits several events to provide transparency and track important actions:\n- **LoanInitiated:** Emitted when a loan is successfully initiated, capturing the borrower's address, loan amount, and interest rate.\n- **LoanRepaid:** Emitted when the loan is repaid, capturing the borrower's address and the amount repaid.\n- **LatePayment:** Emitted when a payment is recorded as late, capturing the borrower's address and the amount due.\n\n## Conclusion\nThe `LoanContract` serves as a robust solution for facilitating loans on the Ethereum blockchain. By automating key processes and providing clear tracking of loan status, it enhances the lending experience for both borrowers and lenders. The use of events ensures transparency, while the contract's functionalities promote accountability and trust in peer-to-peer lending.", "contract": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.26;\n\ncontract LoanContract {\n    // State variables to store loan details\n    address public borrower;\n    address public lender;\n    uint public loanAmount;\n    uint public interestRate;\n    uint public loanTerm;\n    bool public loanActive;\n    uint public totalRepayment;\n    uint public repaymentAmount;\n    uint public repaymentDeadline;\n\n    // Enum to track loan status\n    enum LoanStatus { Active, Repaid, Late }\n    LoanStatus public loanStatus;\n\n    // Event emitted when the loan is initiated\n    event LoanInitiated(address indexed borrower, uint amount, uint interestRate);\n    // Event emitted when the loan is repaid\n    event LoanRepaid(address indexed borrower, uint amount);\n    // Event emitted when a payment is late\n    event LatePayment(address indexed borrower, uint amount);\n\n    // Constructor to initialize the loan details\n    constructor(address _lender) {\n        lender = _lender;\n        loanAmount = 10 ether; // 10 ETH\n        interestRate = 3; // 3%\n        loanTerm = 365 days; // 1 year\n        loanActive = false;\n        loanStatus = LoanStatus.Active;\n    }\n\n    // Function to initiate the loan\n    function initiateLoan() external {\n        require(!loanActive, \"Loan is already active.\");\n        borrower = msg.sender;\n        loanActive = true;\n        totalRepayment = loanAmount + (loanAmount * interestRate / 100);\n        repaymentAmount = totalRepayment; // Repayment amount after 1 year\n        repaymentDeadline = block.timestamp + loanTerm;\n        emit LoanInitiated(borrower, loanAmount, interestRate);\n    }\n\n    // Function to calculate total repayment amount\n    function calculateTotalRepayment() external view returns (uint) {\n        require(loanActive, \"Loan is not active.\");\n        return totalRepayment;\n    }\n\n    // Function to repay the loan\n    function repayLoan() external payable {\n        require(loanActive, \"Loan is not active.\");\n        require(msg.value == repaymentAmount, \"Incorrect repayment amount.\");\n        require(block.timestamp <= repaymentDeadline, \"Payment is late.\");\n\n        loanActive = false;\n        loanStatus = LoanStatus.Repaid;\n        emit LoanRepaid(borrower, msg.value);\n    }\n\n    // Function to check remaining balance of the loan\n    function remainingBalance() external view returns (uint) {\n        require(loanActive, \"Loan is not active.\");\n        return totalRepayment - repaymentAmount;\n    }\n\n    // Function to handle late payments\n    function handleLatePayment() external {\n        require(loanActive, \"Loan is not active.\");\n        require(block.timestamp > repaymentDeadline, \"Payment is not late.\");\n\n        loanStatus = LoanStatus.Late;\n        emit LatePayment(borrower, repaymentAmount);\n    }\n}", "compiler_version": "0.8.26"}} [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:119]
-2024-07-31 06:36:56,522 INFO: Updating smart contract... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:93]
-2024-07-31 06:37:25,360 INFO: reflect [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:112]
-2024-07-31 06:37:25,362 INFO: {"reflect": {"contract": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.26;\n\ncontract LoanContract {\n    // State variables to store loan details\n    address public borrower;\n    address public lender;\n    uint public loanAmount;\n    uint public interestRate;\n    uint public loanTerm;\n    bool public loanActive;\n    uint public totalRepayment;\n    uint public repaymentAmount;\n    uint public repaymentDeadline;\n\n    // Enum to track loan status\n    enum LoanStatus { Active, Repaid, Late }\n    LoanStatus public loanStatus;\n\n    // Event emitted when the loan is initiated\n    event LoanInitiated(address indexed borrower, uint amount, uint interestRate);\n    // Event emitted when the loan is repaid\n    event LoanRepaid(address indexed borrower, uint amount);\n    // Event emitted when a payment is late\n    event LatePayment(address indexed borrower, uint amount);\n\n    // Constructor to initialize the loan details\n    constructor(address _lender) {\n        lender = _lender;\n        loanAmount = 10 ether; // 10 ETH\n        interestRate = 3; // 3%\n        loanTerm = 365 days; // 1 year\n        loanActive = false;\n        loanStatus = LoanStatus.Active;\n    }\n\n    // Function to initiate the loan\n    function initiateLoan() external {\n        require(!loanActive, \"Loan is already active.\");\n        borrower = msg.sender;\n        loanActive = true;\n        totalRepayment = loanAmount + (loanAmount * interestRate / 100);\n        repaymentAmount = totalRepayment; // Full repayment amount after 1 year\n        repaymentDeadline = block.timestamp + loanTerm;\n        emit LoanInitiated(borrower, loanAmount, interestRate);\n    }\n\n    // Function to calculate total repayment amount\n    function calculateTotalRepayment() external view returns (uint) {\n        require(loanActive, \"Loan is not active.\");\n        return totalRepayment;\n    }\n\n    // Function to repay the loan\n    function repayLoan() external payable {\n        require(loanActive, \"Loan is not active.\");\n        require(msg.value == repaymentAmount, \"Incorrect repayment amount.\");\n        require(block.timestamp <= repaymentDeadline, \"Payment is late.\");\n\n        loanActive = false;\n        loanStatus = LoanStatus.Repaid;\n        emit LoanRepaid(borrower, msg.value);\n    }\n\n    // Function to check remaining balance of the loan\n    function remainingBalance() external view returns (uint) {\n        require(loanActive, \"Loan is not active.\");\n        return totalRepayment - repaymentAmount;\n    }\n\n    // Function to handle late payments\n    function handleLatePayment() external {\n        require(loanActive, \"Loan is not active.\");\n        require(block.timestamp > repaymentDeadline, \"Payment is not late.\");\n\n        loanStatus = LoanStatus.Late;\n        emit LatePayment(borrower, repaymentAmount);\n    }\n}", "compiler_version": "0.8.26"}} [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:119]
-2024-07-31 06:37:25,473 INFO: check_code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:112]
-2024-07-31 06:37:25,473 INFO: {"check_code": {"error": "no", "error_message": ""}} [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:119]
-2024-07-31 06:37:35,108 INFO: document [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:112]
+2024-08-02 04:05:43,638 ERROR: Exception on /api/users/user [PUT] [in /Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py:1414]
+Traceback (most recent call last):
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 918, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(512)
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/flask_jwt_extended/view_decorators.py", line 154, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/users/routes.py", line 102, in update_user_profile
+    db.session.commit()
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/scoping.py", line 553, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1905, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1220, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1195, in _prepare_impl
+    self.session.flush()
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4153, in flush
+    self._flush(objects)
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4289, in _flush
+    with util.safe_reraise():
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4250, in _flush
+    flush_context.execute()
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 467, in execute
+    rec.execute(self)
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 644, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 85, in save_obj
+    _emit_update_statements(
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 890, in _emit_update_statements
+    c = connection.execute(
+        ^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1413, in execute
+    return meth(
+           ^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 483, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1637, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1841, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1982, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/bilal/Documents/PassportGPT/.venv/backend/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 918, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(512)
+
+[SQL: UPDATE users SET openai_api_key=%(openai_api_key)s, metamask_wallet_address=%(metamask_wallet_address)s WHERE users.id = %(users_id)s::UUID]
+[parameters: {'openai_api_key': 'gAAAAABmrE0H9TgS8ZnKMYdl7DVkDcys6gBvdZaG9OqzhFqcoQHkJ5-XRD0u-dGPHAY9sZ0AW6I08NObGLRENp4Pp6L6OEejxuM6xOslqhPBnIoYkNq0GmxxjU3YFQkr2MWHA-18LesBqJmsWw62c ... (462 characters truncated) ... GHCL0d7B3WnfGZ9HyjfBW06dwzsgLnQ5ae00bPdVCf6C9qSeFHuIYaKmigQtVYXaYPokka6o0fIoNJp8gCZwTWd5DDclb01Wm4UeIrXkq94O8WVKmZJ86UPEMa_i4SMWecgBiOGlpojcy-Cyu0W4=', 'metamask_wallet_address': 'gAAAAABmrE0HC1Gz3goniTIH1jSzFFoyEmX_n1iT89KMzlD69vnWgnCp1fAfg2BAfRy1KtJh-_6OEGV2TrTXwnTrzCRvhNe0mj_RhmBnA7h4n9VRcQvlm06FjOCrWLvlOEyOBYB-fdV08_sniReJoMIn_LUfKrVW6r3oeB6bv1wVmWeQPFv_C8c=', 'users_id': UUID('1a110fb7-50f6-4301-bb84-538fbf1c705a')}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2024-08-02 04:06:31,847 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-08-02 04:06:38,859 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-08-02 04:06:45,067 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-08-02 04:06:49,949 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-08-02 04:08:29,621 INFO: Flask API startup [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/__init__.py:71]
+2024-08-02 04:38:12,375 INFO: Generating smart contract... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:39]
+2024-08-02 04:38:21,993 INFO: classify [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:39:01,571 INFO: generate [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:39:01,656 INFO: check_code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:39:44,962 INFO: generate [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:39:45,037 INFO: check_code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:40:24,578 INFO: generate [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:40:24,660 INFO: check_code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:41:08,277 INFO: generate [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:41:08,376 INFO: check_code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:41:14,645 INFO: Generating smart contract... [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:39]
+2024-08-02 04:41:21,497 INFO: classify [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:42:02,470 INFO: generate [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
+2024-08-02 04:42:02,544 INFO: check_code [in /Users/bilal/Documents/comsc/kings/individual-project/Tokenize/backend/app/ai/routes.py:57]
