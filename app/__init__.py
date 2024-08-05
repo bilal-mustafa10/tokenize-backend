@@ -19,7 +19,7 @@ ma = Marshmallow()
 jwt = JWTManager()
 cors = CORS()
 limiter = Limiter(
-    key_func=get_remote_address, default_limits=["10000 per day", "1500 per hour"]
+    key_func=get_remote_address, default_limits=["100000 per day", "15000 per hour"]
 )
 
 
