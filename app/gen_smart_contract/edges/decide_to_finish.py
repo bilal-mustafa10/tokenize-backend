@@ -14,8 +14,9 @@ def decide_to_finish(state: GraphState):
         str: Next node to call
     """
     error = state["error"]
+    iterations = state["iterations"]
 
-    if error == "no":
+    if error == "no" or iterations == 4:
         print("---DECISION: FINISH---")
         return "document"
     else:

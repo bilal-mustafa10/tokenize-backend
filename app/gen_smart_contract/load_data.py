@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as Soup
 from langchain_community.document_loaders.recursive_url_loader import RecursiveUrlLoader
 
+# Define the URLs to scrape
 urls = [
     "https://docs.soliditylang.org/en/v0.8.26/introduction-to-smart-contracts.html#blockchain-basics",
     "https://docs.soliditylang.org/en/v0.8.26/solidity-by-example.html",
@@ -13,13 +14,32 @@ urls = [
 ]
 
 
+# Function to load multiple URLs
 def load_multiple_urls(urls):
     docs = []
     for url in urls:
+        # Set custom headers to mimic a browser request
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Connection": "keep-alive",
+        }
+
+        # Initialize the RecursiveUrlLoader with the specified headers
         loader = RecursiveUrlLoader(
-            url=url, max_depth=20, extractor=lambda x: Soup(x, "html.parser").text
+            url=url,
+            max_depth=20,  # Adjust the depth as needed
+            extractor=lambda x: Soup(x, "html.parser").text,
+            headers=headers,
+            check_response_status=True,  # Check response status to skip bad requests
+            continue_on_failure=True  # Continue loading even if some requests fail
         )
+
+        # Load documents and extend the docs list
         docs.extend(loader.load())
+
     return docs
 
 

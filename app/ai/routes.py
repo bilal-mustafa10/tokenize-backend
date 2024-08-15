@@ -51,7 +51,8 @@ def generate_smart_contract() -> Union[Tuple[Response, int], Response]:
                         {
                             "prompt": smart_contract_description,
                             "error_message": "",
-                            "error": "no"
+                            "error": "no",
+                            "iterations": 0
                          }):
                     for key, value in output.items():
                         logger.info(f"{key}")
@@ -60,6 +61,7 @@ def generate_smart_contract() -> Union[Tuple[Response, int], Response]:
                             if hasattr(value, 'dict'):
                                 value = value.dict()
                             json_data = json.dumps({key: value})
+                            logger.info(json_data)
                             yield f"{json_data}\n"
                         except TypeError as e:
                             logger.error(f"Serialization error: {e}")
@@ -107,6 +109,7 @@ def update_smart_contract() -> Union[Tuple[Response, int], Response]:
                             "prompt": smart_contract_description,
                             "existing_contract": smart_contract_code,
                             "error_message": "",
+                            "iterations": 0
                         }):
                     for key, value in output.items():
                         logger.info(f"{key}")

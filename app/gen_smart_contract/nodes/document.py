@@ -22,6 +22,7 @@ def document(state: GraphState) -> Dict[str, Any]:
     compiler_version = state["compiler_version"]
     contract_type = state["contract_type"]
     requirements = state["contract_requirements"]
+    iterations = state["iterations"]
 
     documentation = documentation_gen_chain.invoke({
         "contract": contract
@@ -32,5 +33,6 @@ def document(state: GraphState) -> Dict[str, Any]:
         "contract_type": contract_type,
         "contract_requirements": requirements,
         "documentation": documentation.documentation,
-        "compiler_version": compiler_version
+        "compiler_version": compiler_version,
+        "iterations": iterations
     }

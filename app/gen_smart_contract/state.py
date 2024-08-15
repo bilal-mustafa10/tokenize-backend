@@ -21,7 +21,7 @@ class GraphState(TypedDict):
     error_message: str
 
     prompt: str
-
+    iterations: int
     contract_type: str
     contract_requirements: List[str]
     documentation: str

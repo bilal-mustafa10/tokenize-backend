@@ -22,6 +22,7 @@ def generate(state: GraphState):
     prompt = state["prompt"]
     error = state["error"]
     error_message = state["error_message"]
+    iterations = state["iterations"]
 
     if error == "yes":
         print("---REGENERATING CODE SOLUTION---")
@@ -32,9 +33,12 @@ def generate(state: GraphState):
         {"context": concatenated_content, "prompt": prompt, "requirements": requirements}
     )
 
+    iterations += 1
+
     return {
         "contract": code_solution.contract,
         "compiler_version": code_solution.solVersion,
         "contract_type": contract_type,
         "contract_requirements": requirements,
+        "iterations": iterations,
     }
